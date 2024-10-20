@@ -1,17 +1,19 @@
 import React ,{useEffect,useState}from 'react'
 import Card from './Card'
-import dec from '../Backend/Deck.js'
+// import dec from '../Backend/Deck.js'
 import card from '../Backend/card.js'
-function Deck() {
-const [deck,setDeck] = useState(new dec())
+function Deck({Dec}) {
+const [deck,setDeck] = useState(Dec)
 const [cards,setcards] = useState([])
 const [isClicked,setisClicked] = useState(false)
 const [topCard,settopCard] = useState(null)
-useEffect(() => {
-  deck.shuffleDeck();
-//   setcards(deck.cards);
-  deck.DisplayCards();
-}, [])
+// useEffect(() => {
+// //   deck.shuffleDeck();
+// //   setcards(deck.cards);
+// setDeck(Dec)
+// // deck.DisplayCards();
+// console.log(deck.top)
+// }, [])
 const deckClick = () =>
 {
     setisClicked(true);
@@ -26,6 +28,10 @@ const deckClick = () =>
     {
         console.log("no more cards in the deck")
     }
+    }
+    else
+    {
+        console.log("I wont work")
     }
     
 }
