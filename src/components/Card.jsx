@@ -16,8 +16,7 @@ function card({suit,rank,faceUp,onClick}) {
         {/* <img className='w-60 h-32 border-blue-900 rounded-md' src = {Imageurl} alt=""/> */}
     </div>
     :
-    <div className=' w-60 h-44 bg-gray-100 bg-cover'  style={{ backgroundImage: `url(${require('../assets/card-back.png')})`}}>
-       I am false
+    <div className=' w-32 h-44 bg-gray-100 bg-cover'  style={{ backgroundImage: `url(${require('../assets/card-back.png')})`}}>
     </div>
   )
 }

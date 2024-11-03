@@ -2,37 +2,42 @@ import Card from './card.js'
 class Deck
 {
     constructor()
-    {   this.top = 0;
+    {   this.front = 0;
+        this.rear = 0;
         this.cards = [];
         this.Suit = ['heart','diamond','club','spade']
         this.Ranks = ['A','2','3','4','5','6','7','8','9','J','Q','K']
         this.initializeDeck();
     }
     pushCard = (Card) =>{
-        if (this.top >= 52)
+        if (this.rear >= 52)
         {
             console.log("Unable to push cards exceeded the length");
         }
         else
-        {
-            this.cards[this.top] = Card;
+        {   
+            this.cards[this.rear] = Card;
             console.log("cards pushed in the deck")
-            this.top++;
+            this.rear++;
         }
     }
     popCard = () => 
     {
-        if(this.top == 0)
+        if(this.front == this.rear)
         {
             console.log("No card in the Deck");
         }
         else
         {
-            this.top -=1;
-            let Lastcard = this.cards[this.top];
+            let Lastcard = this.cards[this.front];
+            this.front +=1;
             console.log(Lastcard)
             return Lastcard;
         }
+    }
+    size = () =>
+    {
+        return this.rear;
     }
     initializeDeck = () =>
         {

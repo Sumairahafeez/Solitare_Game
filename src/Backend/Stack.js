@@ -37,22 +37,20 @@ class Stack
     }
     peak()
     {
-        console.log(card[this.top]);
+        return  card[this.top];
     }
     GetCards()
     {
-        let current = this.top.card;
+        let current = this.top;
+        const cards = []
         while(current)
         {
-            const cards = []
-            let current = this.top.card;
-            while(current)
-            {
                 cards.push(current.card);
+                
                 current = current.next;
-            }
-            return cards.reverse();
+            
         }
+        return cards.reverse();
     }
 }
 export default Stack

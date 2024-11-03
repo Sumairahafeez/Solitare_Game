@@ -2,26 +2,22 @@ import React ,{useEffect,useState}from 'react'
 import Card from './Card'
 // import dec from '../Backend/Deck.js'
 import card from '../Backend/card.js'
+import Stockpile from '../Backend/StockPile.js'
 function Deck({Dec}) {
 const [deck,setDeck] = useState(Dec)
 const [cards,setcards] = useState([])
 const [isClicked,setisClicked] = useState(false)
 const [topCard,settopCard] = useState(null)
-// useEffect(() => {
-// //   deck.shuffleDeck();
-// //   setcards(deck.cards);
-// setDeck(Dec)
-// // deck.DisplayCards();
-// console.log(deck.top)
-// }, [])
 const deckClick = () =>
 {
     setisClicked(true);
-    if(deck.top > 0) {
-    const newCard = deck.popCard();
+    console.log(Dec)
+    if(Dec.rear >= 0) {
+    const newCard = Dec.popCard();
     if(newCard)
     {
         settopCard(new card(newCard.suit,newCard.rank))
+        Dec.pushCard(newCard)
         console.log(newCard)
     }
     else

@@ -6,29 +6,18 @@ class Tableu {
         this.TableuPiles = [new Stack(), new Stack(), new Stack(), new Stack(), new Stack(), new Stack(),new Stack()]
         this.deck = deck; 
     }
-    initializeTableu()
+    initializeTableu() 
     {
-        let cardsToDraw = 1;
-        for(let i=0; i<this.TableuPiles.length; i++)
-        {
-            for(let j = 0; j<cardsToDraw; j++)
-            {
-                const card = this.deck.popCard();
-                this.AddCardToPile(i,card);
+            // Initialize the TableuPiles with cards from the deck
+            for (let i = 0; i < 7; i++) {
+                this.TableuPiles[i] = new Stack();
+                for (let j = 0; j <= i; j++) {
+                    this.TableuPiles[i].push(this.deck.popCard());
+                    console.log(this.TableuPiles[i].GetCards())
+                }
             }
-            cardsToDraw++;
-            console.log("Tableu is initialized")
-        }
-        this.TableuPiles.forEach(pile => {
-            if(pile.size()>0)
-            {
-                pile.peak();
-                console.log("I am present in TableuPiles")
-                // card.flip();
-            }
-        });
-        
     }
+        
     AddCardToPile(pileIndex,Card)
     {
         const pile = this.TableuPiles[pileIndex];
