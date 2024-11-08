@@ -1,4 +1,6 @@
+import card from "../components/Card";
 import Deck from "./Deck";
+import LinkedList from "./LinkedList";
 import Tableu from "./Tableu";
 class Stockpile
 {
@@ -8,7 +10,6 @@ class Stockpile
         this.top = 0;
         this.rear = 0;
         this.cards = [];
-        this.initializeStockpile();
     }
     initializeStockpile = () =>
     {
@@ -24,6 +25,7 @@ class Stockpile
             this.rear++;
         }
     }
+    
     popCard = () =>
     {
         if(this.top == this.rear)
@@ -36,6 +38,21 @@ class Stockpile
             this.top +=1;
             return Lastcard;
         }
+    }
+    peek = () =>
+    {
+        if(this.top == this.rear)
+        {
+            console.log("No more cards in the stockpile");
+        }
+        else
+        {
+            return this.cards[this.top];
+        }
+    }
+    getWholeStockpile = () =>
+    {
+        return this.cards.slice(this.top,this.rear);
     }
 }
 export default Stockpile

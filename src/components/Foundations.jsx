@@ -1,13 +1,25 @@
 import React from 'react'
-
-function Foundations() {
-  return (
-      <div className='w-[50%] h-[95%] flex flex-row gap-10  items-center justify-center'>
-        <div className='w-40 h-[95%] border  border-gray-700 rounded-md'>Card1</div>
-        <div className='w-40 h-[95%] border  border-gray-700 rounded-md'>Card2</div>
-        <div className='w-40 h-[95%] border  border-gray-700 rounded-md'>Card3</div>
-        <div className='w-40 h-[95%] border  border-gray-700 rounded-md'>Card4</div>
+import foundation from '../Backend/Foundation.js'
+function Foundations({foundation}) {
+  console.log("Foundations in foundation",foundation)
+  if (!foundation) {
+    return null;
+  }
+  const HandleDrop = (event,toPileIndex) =>
+  {
+      const cardData = event.dataTransfer.getData('card');
+      if(cardData)
+      {
+        const card = JSON.parse(cardData);
+      }
+  }
+  return(
+    <div className='w-[50%] h-[95%] flex flex-row gap-6  items-center justify-center'>
+        {  foundation.foundation.map((foundation,foundationIndex)=>(
+          <div className='w-40 h-[95%] border  border-gray-700 rounded-md' onDrop={(event)=>HandleDrop()}></div>))
+        }
     </div>
+        
   )
 }
 

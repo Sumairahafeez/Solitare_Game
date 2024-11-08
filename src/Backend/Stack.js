@@ -1,4 +1,5 @@
 import card from './card.js'
+import LinkedList from './LinkedList.js';
 class Node 
 {
     constructor()
@@ -12,6 +13,7 @@ class Stack
     constructor()
     {
         this.top = null;
+        this.list = new LinkedList();
     }
     push(Card)
     {
@@ -35,9 +37,11 @@ class Stack
         this.top = this.top.next;
         return card;
     }
-    peak()
-    {
-        return  card[this.top];
+    peek() {
+        if (this.top == null) {
+            return null;
+        }
+        return this.top.card;
     }
     GetCards()
     {
