@@ -7,12 +7,13 @@ function Foundations({foundation , removeCardFromDec , removeCardFromPile , seti
   useEffect(() => {
    setisWon(foundation.victoryCheck()); 
   }, [cards])
-  console.log("Foundations in foundation",foundation)
   if (!foundation) {
     return null;
   }
   const HandleDrop = (event,toPileIndex) =>
-  { 
+  {   
+    try
+    {
       event.preventDefault();
       console.log("Handle drop is called in foundation pile")
       const cardData = event.dataTransfer.getData('card');
@@ -53,32 +54,38 @@ function Foundations({foundation , removeCardFromDec , removeCardFromPile , seti
          
         }
       }
+    }
+    catch(e)
+    {
+      console.log("Error in HandleDrop",e)
+    }
+     
   }
   const renderFoundation = (cardsInPile) => {
-    console.log("Cards in pile",cardsInPile)
-    if (cardsInPile && cardsInPile.length > 0) {
-      console.log("Cards in pile",cardsInPile.cards)
-        return cardsInPile.map((cards,index)=>(
+    try
+    {
+      if (cardsInPile && cardsInPile.length > 0) {
+          return cardsInPile.map((cards,index)=>(
           <div  key={index}
-          style={{ position: 'absolute', top: index * 1 }} >
-        <Card
-        suit={cards.suit}
-        rank={cards.rank}
-        faceUp={true} 
-        draggable = {false}
-        onDragStart = {()=>{console.log("Drag start")}}
-    /></div>))} 
-    else {
-      return null;
+            style={{ position: 'absolute', top: index * 1 }} >
+          <Card suit={cards.suit} rank={cards.rank} faceUp={true} draggable = {false} onDragStart = {()=>{console.log("cannot drag the card")}}/>
+          </div>))} 
+      else {
+        return null;
+          }
     }
+    catch(e)
+    {
+      console.log("Error in renderFoundation",e)
+    }
+   
   }
   return(
     <div className='w-[50%] h-[95%] flex flex-row gap-6  items-center justify-center'>
         {foundation.foundation.map((_,foundationIndex)=>(
           <div className='w-40 h-[95%] border  border-gray-700 rounded-md relative'  onDrop={(event)=>HandleDrop(event,foundationIndex)} onDragOver={(event)=>{event.preventDefault()}}>
             {renderFoundation(cards[foundationIndex])}
-            </div>))
-}
+            </div>))}
     </div>
         
   )

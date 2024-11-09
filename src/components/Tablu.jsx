@@ -1,26 +1,29 @@
 import { useEffect, useState } from 'react';
 import React from 'react'
-import table from '../Backend/Tableu.js';
-import Stack from '../Backend/Stack.js';
 import Card from './Card.jsx';
-import card from './Card.jsx';
-import Tableu from '../Backend/Tableu.js';
-import LinkedList from '../Backend/LinkedList.js';
-import TableuList from './TableuList.jsx';
-import Deck from './Deck.jsx';
-import Validation from '../Backend/Validtaion.js';
-function Tablu({tableu , Dec , removeCardFromDec}) {
+function Tablu({tableu , Isupdate , removeCardFromDec}) {
     const [tab,setTab] = useState([])
     const [selectedCards,setSelectedCards] = useState([])
-    console.log("Dec in tableu",Dec)
     useEffect(() => {
       setTab([...tableu.TableuPiles])
     }, [tableu])
+    useEffect(() => {
+        setTab([...tableu.TableuPiles])
+      }, [Isupdate])
     const handleDragStart = (event, card, fromPileIndex) => {
-        console.log("Hande drag start i sbeing called")
-        event.dataTransfer.setData('card', JSON.stringify(card));
-        event.dataTransfer.setData('fromPileIndex', fromPileIndex.toString());
-        console.log("Dragging card:", card, "from pile index:", fromPileIndex);
+        try
+        {
+            HandleCardClick(fromPileIndex,card);
+            event.dataTransfer.setData('card', JSON.stringify(card));
+            event.dataTransfer.setData('fromPileIndex', fromPileIndex.toString());
+            console.log("Dragging card:", card, "from pile index:", fromPileIndex);
+            
+        }
+        catch(e)
+        {
+            console.log("Error in handleDragStart",e)
+        }
+       
       };
     const handleDrop = (event,toPileIndex) => 
     {   event.preventDefault()
@@ -36,39 +39,36 @@ function Tablu({tableu , Dec , removeCardFromDec}) {
             const card = JSON.parse(cardData);
             if(card)
             {
-                
-                  // console.log('I am in the drop function',card)
                 const fromPileIndex = parseInt(event.dataTransfer.getData('fromPileIndex'));
                 console.log("pileIndex",fromPileIndex)
                 if(fromPileIndex>=0)
                 {   
-                    const draggedCard = tableu.TableuPiles[fromPileIndex].peek();
-                    console.log("Dragged card",draggedCard)
-                    if(tableu.moveCard(draggedCard,toPileIndex))
-                    {   
-                        tableu.TableuPiles[fromPileIndex].pop();
-                        const updateTab = [...tableu.TableuPiles]
-                        updateTab[toPileIndex] = tableu.TableuPiles[toPileIndex].list;
-                        console.log("Tableu after moving",tableu.TableuPiles[toPileIndex].list)
-                        setTab(updateTab);
-                        tableu.flipTopCard(fromPileIndex);
-                    }  
+                    if(selectedCards.length>0)
+                        {
+                            selectedCards.forEach(card => {
+                                if(tableu.moveCard(card,toPileIndex))
+                                    {   
+                                        tableu.TableuPiles[fromPileIndex].pop();
+                                        const updateTab = [...tableu.TableuPiles]
+                                        updateTab[toPileIndex] = tableu.TableuPiles[toPileIndex].list;
+                                        setTab(updateTab);
+                                        tableu.flipTopCard(fromPileIndex);
+                                    }  
+                            });
+                        }   
                 }
                 else
                 {
                    if(tableu.moveCard(card,toPileIndex))
                    {
-                    console.log(Dec,"deck after moving")
                     removeCardFromDec();
-                    // Deck.removeCardFromDec();
                     const updateTab = [...tableu.TableuPiles]
                     updateTab[toPileIndex] = tableu.TableuPiles[toPileIndex].list;
                     setTab(updateTab);
                    }
                    
                 }
-                // tableu.flipTopCard(fromPileIndex);
-               }
+            }
         }
     }
     catch(error)
@@ -81,54 +81,55 @@ function Tablu({tableu , Dec , removeCardFromDec}) {
         console.log("Handle drag over is called")
         event.preventDefault();
     }
-    const HandleCardClick = (cardIndex,fromPileIndex) =>
+    const HandleCardClick = (fromPileIndex,card) =>
     {
-        const cards = tableu.TableuPiles[fromPileIndex].list;
-        console.log("Card clicked",cards)
-        if(cards)
+        const ToPile = tableu.TableuPiles[fromPileIndex];
+        if(ToPile)
         {
-            console.log(cards.retrieveFromSpecificIndex(cardIndex))
-            console.log(cardIndex)
+            const cardsToMove = ToPile.list.retrieveWholeList();
+            setSelectedCards(cardsToMove);
+            console.log("Selected cards for dragging:", cardsToMove);
+        }
+        else
+        {
+            setSelectedCards(card)
         }
     }
     const renderPile =(pile,pileIndex) =>
-    {   const cardsToShow = pile.GetCards();
-        return(
-            <>
-          <div key={pileIndex} className='relative w-full h-full' onDrop = {(event) => handleDrop(event,pileIndex)} onDragOver={HandleDragOver}>
-          {cardsToShow.map((card, cardIndex) => (
-            
-             <div key={cardIndex} className='absolute' style={{ top: `${cardIndex * 30}px` }} onClick={()=>{HandleCardClick(cardIndex,pileIndex)}}>
-                {console.log(cardIndex)}
-                <Card
-                            suit={card.suit}
-                            rank={card.rank}
-                            faceUp={card.faceUp} 
-                            draggable = {true}
-                            onDragStart = {(event)=>{handleDragStart(event,card,pileIndex)}}
-                        />
-                    </div>
-          ))}
-      </div>
-      {/* {drag ?
-                    <TableuList list={tableu.TableuPiles[pileIndex].list} pileIndex={pileIndex}/>
-                : null} */}
-    </>
+    {   
+        try
+        {
+            const cardsToShow = pile.GetCards();
+            return(
+                <>
+              <div key={pileIndex} className='relative w-full h-full' onDrop = {(event) => handleDrop(event,pileIndex)} onDragOver={HandleDragOver}>
+              {cardsToShow.map((card, cardIndex) => (
+                
+                 <div key={cardIndex} className='absolute' style={{ top: `${cardIndex * 30}px` }} onClick={()=>{HandleCardClick(pileIndex)}}>
+                    {console.log(cardIndex)}
+                    <Card suit={card.suit} rank={card.rank} faceUp={card.faceUp} draggable = {true} onDragStart = {(event)=>{handleDragStart(event,card,pileIndex)}} onClick={()=>{HandleCardClick(pileIndex)}}/>
+                </div>
+              ))}
+          </div>
+        </>
         )
-            }
+        }
+        catch(e)
+        {
+            console.log("Error in renderPile",e)
+        }
+       
+}
     if (!tableu.TableuPiles || !tableu) {
-      return null; // or you can return a loading indicator
+      return null; 
   }
 
-  return (
-    
+  return ( 
     <div className='flex flex-row px-20 justify-center items-start gap-5'>
       {console.log(tableu.TableuPiles)}
             {tableu.TableuPiles.map((pile, pileIndex) => (
                 <div key={pileIndex} className=' relative w-[12%] h-52 rounded-md flex flex-col items-center'>
-                    {
-                    renderPile(pile, pileIndex)}
-                    
+                    {renderPile(pile, pileIndex)}  
                 </div>
             ))}
         </div>

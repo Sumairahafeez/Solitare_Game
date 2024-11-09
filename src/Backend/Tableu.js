@@ -9,7 +9,6 @@ class Tableu {
     }
     initializeTableu() 
     {
-            // Initialize the TableuPiles with cards from the deck
             for (let i = 0; i < 7; i++) {
                 this.TableuPiles[i] = new Stack();
                 for (let j = 0; j <= i; j++) {
@@ -17,6 +16,7 @@ class Tableu {
                     if(j==i)
                     {
                         card.faceUp = true;
+                        this.TableuPiles[i].list.insertData(card);
                     }
                     this.TableuPiles[i].push(card);
                     console.log(this.TableuPiles[i].GetCards())
@@ -41,15 +41,13 @@ class Tableu {
     flipTopCard(fromPileIndex) {
         const pile = this.TableuPiles[fromPileIndex];
         console.log(pile.list.size,"pile size")
-        // if (pile.list.size > 0) {
         if(pile)
         {
             const topCard = pile.peek();
             topCard.faceUp = true;
+            pile.list.insertData(topCard);
             console.log("Card flipped")
         }
-           
-        // }
     }
     
     isValidMove(card, ToPile)

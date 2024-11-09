@@ -10,52 +10,83 @@ class Deck
         this.initializeDeck();
     }
     pushCard = (Card) =>{
-        if (this.rear >= 52)
+        try
         {
-            console.log("Unable to push cards exceeded the length");
+            if (this.rear >= 52)
+                {
+                    console.log("Unable to push cards exceeded the length");
+                }
+                else
+                {   
+                    this.cards[this.rear] = Card;
+                    console.log("cards pushed in the deck")
+                    this.rear++;
+                }
         }
-        else
-        {   
-            this.cards[this.rear] = Card;
-            console.log("cards pushed in the deck")
-            this.rear++;
+        catch(e)
+        {
+            console.log("Error in pushCard",e)
         }
+        
     }
     popCard = () => 
-    {
-        if(this.front == this.rear)
+    {   
+        try
         {
-            console.log("No card in the Deck");
-            return null;
+            if(this.front == this.rear)
+                {
+                    console.log("No card in the Deck");
+                    return null;
+                }
+                else
+                {
+                    let Lastcard = this.cards[this.front];
+                    this.front +=1;
+                    console.log(Lastcard)
+                    return Lastcard;
+                }
         }
-        else
+        catch(e)
         {
-            let Lastcard = this.cards[this.front];
-            this.front +=1;
-            console.log(Lastcard)
-            return Lastcard;
+            console.log("Error in popCard",e)
         }
+       
     }
     size = () =>
     {
         return this.rear;
     }
     initializeDeck = () =>
-        {
-            for(let suit of this.Suit)
+        {   try
             {
-                for(let rank of this.Ranks)
-                {
-                    this.pushCard(new Card(suit,rank));
-                }
+                for(let suit of this.Suit)
+                    {
+                        for(let rank of this.Ranks)
+                        {
+                            this.pushCard(new Card(suit,rank));
+                        }
+                    }
             }
+            catch(e)
+            {
+                console.log("Error in initializeDeck",e)
+            }
+           
         }
     shuffleDeck = () =>{
-        for(let i = this.cards.length-1; i>0; i--)
+        try
         {
-            const j = Math.floor(Math.random()*(i+1));
-            [this.cards[i],this.cards[j]] = [this.cards[j],this.cards[i]];
+            for(let i = this.cards.length-1; i>0; i--)
+                {
+                    const j = Math.floor(Math.random()*(i+1));
+                    [this.cards[i],this.cards[j]] = [this.cards[j],this.cards[i]];
+                }
         }
+        catch(e)
+        {
+            console.log("Error in shuffleDeck",e)
+        }
+      
     } 
     DisplayCards = () =>
     {
@@ -65,9 +96,3 @@ class Deck
     }
 }
 export default Deck;
-// const deck = new Deck();
-// console.log('Deck before shuffle:');
-// deck.DisplayCards();
-// deck.shuffleDeck();
-// console.log('\nDeck after shuffle:');
-// deck.DisplayCards();

@@ -13,7 +13,7 @@ class Foundations
         if(pile.size()==0)
         {   
             console.log("Card in foundations",Card)
-            if(Card.rank == 'A')
+            if(Card.rank === 'A')
             {
                 pile.push(Card);
                 console.log("Card inserted in foundation")
@@ -30,9 +30,7 @@ class Foundations
             const TopCard = pile.peek();
             let ranks = ['A','1','2','3','4','5','6','7','8','9','10','J','Q','K'];
             let cardIndex = ranks.indexOf(Card.rank);
-            console.log(TopCard)
             let foundationRank = ranks.indexOf(TopCard.rank)
-            console.log("Card index",cardIndex)
             if(Card.suit === TopCard.suit && cardIndex > foundationRank)
             {
                 pile.push(Card);
@@ -41,7 +39,7 @@ class Foundations
             }
             else
             {
-                console.log("unable to insert card")
+                console.log("Invalid insertion in foundation")
                 return false;
             }
         }

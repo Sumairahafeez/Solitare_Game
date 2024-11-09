@@ -5,52 +5,21 @@ import card from '../Backend/card.js'
 import Stockpile from '../Backend/StockPile.js'
 import Tablu from './Tablu.jsx'
 import Validtaion from '../Backend/Validtaion.js'
-function Deck({Dec , topCard , deckClick , update , isClicked}) {
+function Deck({topCard , deckClick , update , isClicked}) {
     useEffect(() => {
-        
-    }, [update])
-// const [deck,setDeck] = useState(Dec)
-// const [isClicked,setisClicked] = useState(false)
-// const [topCard,settopCard] = useState(null)
-// const removeCardFromDec = () =>
-// {
-//     const card = Dec.popCard();
-//     if(card)
-//     {
-//         const newCard = Dec.peekCard();
-//         if(newCard)
-//         {
-//             settopCard(new card(newCard.suit,newCard.rank))
-//         }
-//     }
-// }
-// const deckClick = () =>
-// {
-//     setisClicked(true);
-//     console.log(Dec)
-//     if(Dec.rear >= 0) {
-//     const newCard = Dec.popCard();
-//     if(newCard)
-//     {
-//         settopCard(new card(newCard.suit,newCard.rank))
-//         Dec.pushCard(newCard)
-//         console.log(newCard)
-//     }
-//     else
-//     {
-//         console.log("no more cards in the deck")
-//     }
-//     }
-//     else
-//     {
-//         console.log("I wont work")
-//     }
-    
-// }
+}, [update])
 const HandleDragStart = (event,card) => 
 {
-    console.log("Deck card is moved")
-    event.dataTransfer.setData('card',JSON.stringify(card))
+    try
+    {
+      console.log("Deck card is moved")
+      event.dataTransfer.setData('card',JSON.stringify(card))
+    }
+    catch(e)
+    {
+      console.log("Error in HandleDragStart",e)
+    }
+   
 }
   return (
     <div className='w-[25%] h-[95%] border-gray-800 rounded-md  flex flex-row justify-center items-center gap-10'>

@@ -14,6 +14,7 @@ import foundation from './Backend/Foundation.js';
 import { useState,useEffect } from 'react';
 import { tab } from '@testing-library/user-event/dist/tab.js';
 import { fromJSON } from 'postcss';
+import ScoreBoard from './components/ScoreBoard.jsx';
 function App() {
 const [deck,setDeck] = useState(new dec())
 const [isSet,setcards] = useState(false)
@@ -24,7 +25,10 @@ const [isClicked,setisClicked] = useState(false)
 const [topCard,settopCard] = useState(null)
 const [foundations,setFoundation] = useState(new foundation())
 const [isWon,setisWon] = useState(false)
+const [Gamescore,setGamescore] = useState(0)
   useEffect(() => {
+    try
+    {
     deck.shuffleDeck();
     deck.DisplayCards();
     const newTableu = new Tableu(deck);
@@ -34,78 +38,100 @@ const [isWon,setisWon] = useState(false)
     newstockpile.initializeStockpile();
     setStockpile(newstockpile);
     setcards(true);
-    console.log("Foundation",foundations)
-    // console.log(deck.top)
+    }
+    catch(e)
+    {
+      console.log("Error in App.js",e)
+    }
+    
   },[]) 
   const removeCardFromDec = () =>
-    {
-        // stockpile.cards = stockpile.getWholeStockpile();
-        // stockpile.cards = stockpile.slice(0,stockpile.rear-1)
-        
+    {   try
         {
             const newCard = stockpile.popCard();
             if(newCard)
             {   let anotherCard = new card(newCard.suit,newCard.rank)
                 settopCard(anotherCard)
-                // stockpile.top += 1;
                 stockpile.rear -=1;
                 stockpile.pushCard(newCard)
                 setStockpile(stockpile)
-                console.log("New card",anotherCard)
-                // settopCard(new card(newCard.suit,newCard.rank))
             }
+            setisupdate(()=>{
+              setGamescore(prev => prev+5)
+              return !update
+            });
         }
-        setisupdate(!update)
+        catch(e)
+        {
+            console.log("Error in removeCardFromDec",e)
+        }
+        
     }
     const deckClick = () =>
     {
-        setisClicked(true);
-        console.log(deck)
-        if(stockpile.rear >= 0) {
-        const newCard = stockpile.popCard();
-        if(newCard)
+        try{
+          setisClicked(true);
+          if(stockpile.rear >= 0) {
+          const newCard = stockpile.popCard();
+          if(newCard)
+          {
+              settopCard(new card(newCard.suit,newCard.rank))
+              stockpile.pushCard(newCard)
+          }
+          else
+          {
+              console.log("no more cards in the deck")
+              settopCard(null)
+          }
+          }
+          else
+          {
+              console.log("I wont work")
+          }
+        }
+        catch(e)
         {
-            settopCard(new card(newCard.suit,newCard.rank))
-            stockpile.pushCard(newCard)
-            // stockpile.cards = stockpile.getWholeStockpile();
-            console.log(newCard)
+            console.log("Error in deckClick",e)
         }
-        else
-        {
-            console.log("no more cards in the deck")
-            settopCard(null)
-        }
-        }
-        else
-        {
-            console.log("I wont work")
-        }
+       
         
     }
     const removeCardFromPile = (fromPileIndex) =>
     {
-      tableu.TableuPiles[fromPileIndex].pop();
-      tableu.flipTopCard(fromPileIndex);
-      setTableu(tableu);
-      console.log("Card removed from pile")
+      try
+      {
+        tableu.TableuPiles[fromPileIndex].pop();
+        tableu.flipTopCard(fromPileIndex);
+        setTableu(tableu);
+        setisupdate(()=>{
+          setGamescore(prev => prev+5)
+          return !update
+        });
+        console.log("Card removed from pile")
+      }
+      catch(e)
+      {
+        console.log("Error in removeCardFromPile",e)
+      }
+     
     }
   return (
     <div className="w-full h-lvh bg-green-700 flex flex-col gap-5">
       <div className='w-full h-[30%] bg-green-700 flex flex-row gap-64 items-center'>
-        <Deck Dec = {stockpile} topCard = {topCard} deckClick = {()=>deckClick()} update ={update} isClicked = {isClicked}/>
+        <Deck topCard = {topCard} deckClick = {()=>deckClick()} update ={update} isClicked = {isClicked}/>
         <Foundations foundation = {foundations} removeCardFromDec = {removeCardFromDec} removeCardFromPile={removeCardFromPile} setisWon = {setisWon}/>
       </div>
-      <div className='w-full h-[70%] flex flex-col'>
+      <div className='w-full h-[70%] flex flex-col gap-[220px]'>
       {isSet ? (
           <>
-            {/* {console.log(tableu)} */}
             {console.log("stockpile in app",stockpile)}
-            <Tablu tableu={tableu} Dec={stockpile} removeCardFromDec = {removeCardFromDec} />
+            <Tablu tableu={tableu} Isupdate={update} removeCardFromDec = {removeCardFromDec} />
           </>
         ) : null}
+        <ScoreBoard score = {Gamescore}/>
       </div>
-      {isWon ? <WinPage/> : null}
      
+      {isWon ? <WinPage/> : null}
     </div>
   );
 }

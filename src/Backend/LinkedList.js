@@ -15,20 +15,28 @@ class LinkedList
         this.size = 0;
     }
     insertData = (card) =>{
-        let current;
-        if(this.head === null)
+        try
         {
-            this.head = new Node(card);
-        }
-        else
-        {
-            current = this.head;
-            while(current.next)
+            let current;
+            if(this.head === null)
             {
-                current = current.next;
+                this.head = new Node(card);
             }
-            current.next = new Node(card);
+            else
+            {
+                current = this.head;
+                while(current.next)
+                {
+                    current = current.next;
+                }
+                current.next = new Node(card);
+            }
         }
+        catch(e)
+        {
+            console.log("Error in insertData",e)
+        }
+        
     }
     display = () =>
     {
@@ -40,33 +48,49 @@ class LinkedList
         }
     }
     retrieveWholeList = () =>
-    {
-        let current = this.head;
-        let list = [];
-        while(current)
+    {   
+        try
         {
-            list.push(current.card);
-            current = current.next;
+            let current = this.head;
+            let list = [];
+            while(current)
+            {
+                list.push(current.card);
+                current = current.next;
+            }
+            return list;
         }
-        return list;
+        catch(e)
+        {
+            console.log("Error in retrieveWholeList",e)
+        }
+       
     }
     retrieveFromSpecificIndex = (index)=>{
-        let current = this.head;
-        let count = 0;
-        while(current.next && count < index)
+        try
         {
-            current = current.next;
-            count++;
+            let current = this.head;
+            let count = 0;
+            while(current.next && count < index)
+            {
+                current = current.next;
+                count++;
+            }
+            let cards = [];
+            let indexCard = current.next;
+            current.next = null;
+            while(indexCard)
+            {
+                cards.push(indexCard.card);
+                indexCard = indexCard.next;
+            }
+            return cards;
+    
         }
-        let cards = [];
-        let indexCard = current.next;
-        current.next = null;
-        while(indexCard)
+        catch(e)
         {
-            cards.push(indexCard.card);
-            indexCard = indexCard.next;
+            console.log("Error in retrieveFromSpecificIndex",e)
         }
-        return cards;
     }
 }
 export default LinkedList
