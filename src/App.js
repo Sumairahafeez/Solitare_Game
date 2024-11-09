@@ -6,11 +6,14 @@ import Foundations from './components/Foundations.jsx';
 import Tablu from './components/Tablu.jsx';
 import dec from './Backend/Deck.js'
 import card from './Backend/card.js'
+import WinPage from './components/WinPage.jsx';
 // import Card from './Backend/card.js';
 import Tableu from './Backend/Tableu.js';
 import Stockpile from './Backend/StockPile.js';
 import foundation from './Backend/Foundation.js';
 import { useState,useEffect } from 'react';
+import { tab } from '@testing-library/user-event/dist/tab.js';
+import { fromJSON } from 'postcss';
 function App() {
 const [deck,setDeck] = useState(new dec())
 const [isSet,setcards] = useState(false)
@@ -20,6 +23,7 @@ const [update,setisupdate] = useState(false)
 const [isClicked,setisClicked] = useState(false)
 const [topCard,settopCard] = useState(null)
 const [foundations,setFoundation] = useState(new foundation())
+const [isWon,setisWon] = useState(false)
   useEffect(() => {
     deck.shuffleDeck();
     deck.DisplayCards();
@@ -36,12 +40,17 @@ const [foundations,setFoundation] = useState(new foundation())
   const removeCardFromDec = () =>
     {
         // stockpile.cards = stockpile.getWholeStockpile();
+        // stockpile.cards = stockpile.slice(0,stockpile.rear-1)
+        
         {
-            const newCard = stockpile.peek();
+            const newCard = stockpile.popCard();
             if(newCard)
             {   let anotherCard = new card(newCard.suit,newCard.rank)
                 settopCard(anotherCard)
-                stockpile.rear -= 1;
+                // stockpile.top += 1;
+                stockpile.rear -=1;
+                stockpile.pushCard(newCard)
+                setStockpile(stockpile)
                 console.log("New card",anotherCard)
                 // settopCard(new card(newCard.suit,newCard.rank))
             }
@@ -64,6 +73,7 @@ const [foundations,setFoundation] = useState(new foundation())
         else
         {
             console.log("no more cards in the deck")
+            settopCard(null)
         }
         }
         else
@@ -72,11 +82,18 @@ const [foundations,setFoundation] = useState(new foundation())
         }
         
     }
+    const removeCardFromPile = (fromPileIndex) =>
+    {
+      tableu.TableuPiles[fromPileIndex].pop();
+      tableu.flipTopCard(fromPileIndex);
+      setTableu(tableu);
+      console.log("Card removed from pile")
+    }
   return (
     <div className="w-full h-lvh bg-green-700 flex flex-col gap-5">
       <div className='w-full h-[30%] bg-green-700 flex flex-row gap-64 items-center'>
         <Deck Dec = {stockpile} topCard = {topCard} deckClick = {()=>deckClick()} update ={update} isClicked = {isClicked}/>
-        <Foundations foundation = {foundations}/>
+        <Foundations foundation = {foundations} removeCardFromDec = {removeCardFromDec} removeCardFromPile={removeCardFromPile} setisWon = {setisWon}/>
       </div>
       <div className='w-full h-[70%] flex flex-col'>
       {isSet ? (
@@ -87,7 +104,7 @@ const [foundations,setFoundation] = useState(new foundation())
           </>
         ) : null}
       </div>
-      {/* <Card suit="club" rank="2" faceUp={true} onClick={() => console.log('Card clicked!')}/> */}
+      {isWon ? <WinPage/> : null}
      
     </div>
   );

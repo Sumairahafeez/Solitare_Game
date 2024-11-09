@@ -6,7 +6,7 @@ class Deck
         this.rear = 0;
         this.cards = [];
         this.Suit = ['heart','diamond','club','spade']
-        this.Ranks = ['A','2','3','4','5','6','7','8','9','J','Q','K']
+        this.Ranks = ['A','2','3','4','5','6','7','8','9','10','J','Q','K']
         this.initializeDeck();
     }
     pushCard = (Card) =>{
@@ -26,6 +26,7 @@ class Deck
         if(this.front == this.rear)
         {
             console.log("No card in the Deck");
+            return null;
         }
         else
         {

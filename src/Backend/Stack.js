@@ -24,7 +24,7 @@ class Stack
     }
     size()
     {
-        return card.length;
+        return this.top ? this.top : 0;
     }
     pop()
     {

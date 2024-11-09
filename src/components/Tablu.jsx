@@ -11,11 +11,11 @@ import Deck from './Deck.jsx';
 import Validation from '../Backend/Validtaion.js';
 function Tablu({tableu , Dec , removeCardFromDec}) {
     const [tab,setTab] = useState([])
-    const [drag,setdrag] = useState(false)
+    const [selectedCards,setSelectedCards] = useState([])
     console.log("Dec in tableu",Dec)
     useEffect(() => {
       setTab([...tableu.TableuPiles])
-    }, [tableu.TableuPiles])
+    }, [tableu])
     const handleDragStart = (event, card, fromPileIndex) => {
         console.log("Hande drag start i sbeing called")
         event.dataTransfer.setData('card', JSON.stringify(card));
@@ -49,6 +49,7 @@ function Tablu({tableu , Dec , removeCardFromDec}) {
                         tableu.TableuPiles[fromPileIndex].pop();
                         const updateTab = [...tableu.TableuPiles]
                         updateTab[toPileIndex] = tableu.TableuPiles[toPileIndex].list;
+                        console.log("Tableu after moving",tableu.TableuPiles[toPileIndex].list)
                         setTab(updateTab);
                         tableu.flipTopCard(fromPileIndex);
                     }  
@@ -80,6 +81,16 @@ function Tablu({tableu , Dec , removeCardFromDec}) {
         console.log("Handle drag over is called")
         event.preventDefault();
     }
+    const HandleCardClick = (cardIndex,fromPileIndex) =>
+    {
+        const cards = tableu.TableuPiles[fromPileIndex].list;
+        console.log("Card clicked",cards)
+        if(cards)
+        {
+            console.log(cards.retrieveFromSpecificIndex(cardIndex))
+            console.log(cardIndex)
+        }
+    }
     const renderPile =(pile,pileIndex) =>
     {   const cardsToShow = pile.GetCards();
         return(
@@ -87,7 +98,7 @@ function Tablu({tableu , Dec , removeCardFromDec}) {
           <div key={pileIndex} className='relative w-full h-full' onDrop = {(event) => handleDrop(event,pileIndex)} onDragOver={HandleDragOver}>
           {cardsToShow.map((card, cardIndex) => (
             
-             <div key={cardIndex} className='absolute' style={{ top: `${cardIndex * 30}px` }}>
+             <div key={cardIndex} className='absolute' style={{ top: `${cardIndex * 30}px` }} onClick={()=>{HandleCardClick(cardIndex,pileIndex)}}>
                 {console.log(cardIndex)}
                 <Card
                             suit={card.suit}

@@ -53,7 +53,7 @@ class LinkedList
     retrieveFromSpecificIndex = (index)=>{
         let current = this.head;
         let count = 0;
-        while(current && count < index)
+        while(current.next && count < index)
         {
             current = current.next;
             count++;

@@ -52,7 +52,7 @@ class Stockpile
     }
     getWholeStockpile = () =>
     {
-        return this.cards.slice(this.top,this.rear);
+        return this.cards.slice(0,this.rear-1);
     }
 }
 export default Stockpile

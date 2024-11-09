@@ -40,10 +40,16 @@ class Tableu {
     }
     flipTopCard(fromPileIndex) {
         const pile = this.TableuPiles[fromPileIndex];
-        if (pile.size() > 0) {
+        console.log(pile.list.size,"pile size")
+        // if (pile.list.size > 0) {
+        if(pile)
+        {
             const topCard = pile.peek();
             topCard.faceUp = true;
+            console.log("Card flipped")
         }
+           
+        // }
     }
     
     isValidMove(card, ToPile)
