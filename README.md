@@ -51,6 +51,8 @@ You win if you successfully move all cards to the foundation piles in the correc
 
 ### Game Mode
 ![Main Menu Screenshot](IMG-1.png)
+![Mid Way Game Menu Screenshot](IMG-2.png)
+![Win Game Menu Screenshot](IMG-3.png)
 
 ## How to run the game
 
