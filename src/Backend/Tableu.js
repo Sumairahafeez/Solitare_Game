@@ -2,6 +2,7 @@ import Stack from "./Stack";
 import Card from "./card";
 import Deck from "./Deck";
 import LinkedList from "./LinkedList";
+import RankMap from "./RankMap";
 class Tableu {
     constructor(deck) {
         this.TableuPiles = [new Stack(), new Stack(), new Stack(), new Stack(), new Stack(), new Stack(),new Stack()]
@@ -53,7 +54,7 @@ class Tableu {
     isValidMove(card, ToPile)
     {
         const topCard = ToPile.peek();
-        const ranks = ['A','2','3','4','5','6','7','8','9','10','J','Q','K'];
+        // const ranks = ['A','2','3','4','5','6','7','8','9','10','J','Q','K'];
         if (topCard == null) {
             if (card.rank === 'K') {
                 return true;
@@ -61,8 +62,8 @@ class Tableu {
         }
         else
         {   
-            let cardRankIndex = ranks.indexOf(card.rank);
-            let topCardRankIndex = ranks.indexOf(topCard.rank);
+            let cardRankIndex = RankMap.get(card.rank);
+            let topCardRankIndex = RankMap.get(topCard.rank);
             console.log("Top card color ",topCard.color ,"Card color ",card.color)
             if (topCardRankIndex- 1 === cardRankIndex && topCard.color !== card.color) {
                 return true;

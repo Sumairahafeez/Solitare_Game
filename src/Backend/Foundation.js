@@ -1,5 +1,5 @@
 import Stack from "./Stack";
-
+import RankMap from "./RankMap";
 class Foundations
 {
     constructor()
@@ -29,8 +29,8 @@ class Foundations
         {
             const TopCard = pile.peek();
             let ranks = ['A','1','2','3','4','5','6','7','8','9','10','J','Q','K'];
-            let cardIndex = ranks.indexOf(Card.rank);
-            let foundationRank = ranks.indexOf(TopCard.rank)
+            let cardIndex = RankMap.get(Card.rank);
+            let foundationRank = RankMap.get(TopCard.rank)
             if(Card.suit === TopCard.suit && cardIndex > foundationRank)
             {
                 pile.push(Card);

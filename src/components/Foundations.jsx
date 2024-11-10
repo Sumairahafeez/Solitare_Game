@@ -89,7 +89,7 @@ function Foundations({foundation , removeCardFromDec , removeCardFromPile , seti
   return(
     <div className='w-[50%] h-[95%] flex flex-row gap-6  items-center justify-center'>
         {foundation.foundation.map((_,foundationIndex)=>(
-          <div className='w-40 h-[95%] border  border-gray-700 rounded-md relative'  onDrop={(event)=>HandleDrop(event,foundationIndex)} onDragOver={(event)=>{event.preventDefault()}}>
+          <div className='w-40 h-[95%] border  border-gray-700 rounded-md relative' key={foundationIndex}  onDrop={(event)=>HandleDrop(event,foundationIndex)} onDragOver={(event)=>{event.preventDefault()}}>
             {renderFoundation(cards[foundationIndex])}
             </div>))}
     </div>

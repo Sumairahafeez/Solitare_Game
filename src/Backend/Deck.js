@@ -1,6 +1,7 @@
 import Card from './card.js'
 class Deck
 {
+    // queue implementation in deck
     constructor()
     {   this.front = 0;
         this.rear = 0;
