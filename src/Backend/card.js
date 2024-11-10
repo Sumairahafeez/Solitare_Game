@@ -5,6 +5,7 @@ class Card
         this.suit = suit;
         this.rank = rank;
         this.faceUp = false;
+        this.color = (this.suit === 'heart' || this.suit === 'diamond') ? 'red' : 'black';
     }
     flip()
     {

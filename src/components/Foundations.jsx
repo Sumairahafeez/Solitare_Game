@@ -1,15 +1,19 @@
+
 import React, { useEffect } from 'react'
 import foundation from '../Backend/Foundation.js'
 import Card from './Card.jsx';
+// Import necessary dependencies and components
 function Foundations({foundation , removeCardFromDec , removeCardFromPile , setisWon}) {
   const [isCardPresent, setIsCardPresent] = React.useState(0);
   const [cards, setCard] = React.useState([]);
+  // useeffect for rerendering the component
   useEffect(() => {
    setisWon(foundation.victoryCheck()); 
   }, [cards])
   if (!foundation) {
     return null;
   }
+  // function to handle drop in foundation pile
   const HandleDrop = (event,toPileIndex) =>
   {   
     try
@@ -61,6 +65,7 @@ function Foundations({foundation , removeCardFromDec , removeCardFromPile , seti
     }
      
   }
+  // function to render the foundation pile
   const renderFoundation = (cardsInPile) => {
     try
     {
@@ -80,6 +85,7 @@ function Foundations({foundation , removeCardFromDec , removeCardFromPile , seti
     }
    
   }
+  // return the foundation component
   return(
     <div className='w-[50%] h-[95%] flex flex-row gap-6  items-center justify-center'>
         {foundation.foundation.map((_,foundationIndex)=>(

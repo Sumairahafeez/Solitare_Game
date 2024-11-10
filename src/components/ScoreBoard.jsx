@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-
+// function to display the score board using timer function to set timer after specific time
 function ScoreBoard({score}) {
     const [timer, setTimer] = React.useState(0);
     useEffect(() => {

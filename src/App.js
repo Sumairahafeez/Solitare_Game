@@ -1,3 +1,4 @@
+// import the dependencies
 import logo from './logo.svg';
 import './App.css';
 import Card from './components/Card.jsx';
@@ -7,7 +8,6 @@ import Tablu from './components/Tablu.jsx';
 import dec from './Backend/Deck.js'
 import card from './Backend/card.js'
 import WinPage from './components/WinPage.jsx';
-// import Card from './Backend/card.js';
 import Tableu from './Backend/Tableu.js';
 import Stockpile from './Backend/StockPile.js';
 import foundation from './Backend/Foundation.js';
@@ -15,7 +15,9 @@ import { useState,useEffect } from 'react';
 import { tab } from '@testing-library/user-event/dist/tab.js';
 import { fromJSON } from 'postcss';
 import ScoreBoard from './components/ScoreBoard.jsx';
+// implement the component function
 function App() {
+// set usestates for game variables like deck tableu etc for implementation
 const [deck,setDeck] = useState(new dec())
 const [isSet,setcards] = useState(false)
 const [tableu,setTableu] = useState(new Tableu())
@@ -26,6 +28,7 @@ const [topCard,settopCard] = useState(null)
 const [foundations,setFoundation] = useState(new foundation())
 const [isWon,setisWon] = useState(false)
 const [Gamescore,setGamescore] = useState(0)
+// implement use effect to shuffle the deck and initialize the tableu
   useEffect(() => {
     try
     {
@@ -45,6 +48,7 @@ const [Gamescore,setGamescore] = useState(0)
     }
     
   },[]) 
+  // implement the function to remove card from deck
   const removeCardFromDec = () =>
     {   try
         {
@@ -67,6 +71,7 @@ const [Gamescore,setGamescore] = useState(0)
         }
         
     }
+    // implement the function to remove card from deck on click and replace the top card
     const deckClick = () =>
     {
         try{
@@ -96,6 +101,7 @@ const [Gamescore,setGamescore] = useState(0)
        
         
     }
+    // implement the function to remove card from pile
     const removeCardFromPile = (fromPileIndex) =>
     {
       try
@@ -115,6 +121,7 @@ const [Gamescore,setGamescore] = useState(0)
       }
      
     }
+    // component rendering for app development
   return (
     <div className="w-full h-lvh bg-green-700 flex flex-col gap-5">
       <div className='w-full h-[30%] bg-green-700 flex flex-row gap-64 items-center'>
@@ -130,7 +137,6 @@ const [Gamescore,setGamescore] = useState(0)
         ) : null}
         <ScoreBoard score = {Gamescore}/>
       </div>
-     
       {isWon ? <WinPage/> : null}
     </div>
   );

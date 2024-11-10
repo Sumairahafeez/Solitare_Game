@@ -63,10 +63,12 @@ class Tableu {
         {   
             let cardRankIndex = ranks.indexOf(card.rank);
             let topCardRankIndex = ranks.indexOf(topCard.rank);
-            if (topCardRankIndex- 1 === cardRankIndex) {
+            console.log("Top card color ",topCard.color ,"Card color ",card.color)
+            if (topCardRankIndex- 1 === cardRankIndex && topCard.color !== card.color) {
                 return true;
             }
         }
+        return false;
     }
     moveCard(Card, toPileIndex)
     {
