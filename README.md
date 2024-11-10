@@ -50,9 +50,9 @@ You win if you successfully move all cards to the foundation piles in the correc
 ## Screenshots
 
 ### Game Mode
-![Main Menu Screenshot](IMG-1.png) Main Menu
-![Mid Way Game Menu Screenshot](IMG-2.png)
-![Win Game Menu Screenshot](IMG-3.png)
+ Main Menu ![Main Menu Screenshot](IMG-1.png)
+Game Menu Mid Way![Mid Way Game Menu Screenshot](IMG-2.png)
+Win Game ![Win Game Menu Screenshot](IMG-3.png)
 
 ## How to run the game
 
